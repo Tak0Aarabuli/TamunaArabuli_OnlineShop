@@ -1,0 +1,80 @@
+﻿@model Models.Product.CreateProductViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1>Edit Product</h1>
+
+<form asp-action="EditProduct" method="post">
+    <input asp-for="ProductId" type="hidden" />
+    <div class="form-group">
+        <label asp-for="ProductName" class="form-label"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductNumber" class="form-label"></label>
+        <input asp-for="ProductNumber" class="form-control" />
+        <span asp-validation-for="ProductNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProductColor" class="form-label"></label>
+        <input asp-for="ProductColor" class="form-control" />
+        <span asp-validation-for="ProductColor" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StandardCost" class="form-label"></label>
+        <input asp-for="StandardCost" class="form-control" />
+        <span asp-validation-for="StandardCost" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ListPrice" class="form-label"></label>
+        <input asp-for="ListPrice" class="form-control" />
+        <span asp-validation-for="ListPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReorderPoint" class="form-label"></label>
+        <input asp-for="ReorderPoint" class="form-control" />
+        <span asp-validation-for="ReorderPoint" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SafetyStockLevel" class="form-label"></label>
+        <input asp-for="SafetyStockLevel" class="form-control" />
+        <span asp-validation-for="SafetyStockLevel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Size" class="form-label"></label>
+        <input asp-for="Size" class="form-control" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SellStartDate" class="form-label"></label>
+        <input asp-for="SellStartDate" class="form-control" type="date" />
+        <span asp-validation-for="SellStartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DaysToManufacture" class="form-label"></label>
+        <input asp-for="DaysToManufacture" class="form-control" />
+        <span asp-validation-for="DaysToManufacture" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Delete" asp-route-id="@Model.ProductId" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

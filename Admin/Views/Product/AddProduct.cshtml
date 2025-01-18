@@ -1,0 +1,100 @@
+﻿@model Models.Product.CreateProductViewModel
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h2>Add Product</h2>
+
+<form asp-action="AddProduct" method="post">
+    <div class="mb-3">
+        <label asp-for="ProductName" class="form-label"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProductNumber" class="form-label"></label>
+        <input asp-for="ProductNumber" class="form-control" />
+        <span asp-validation-for="ProductNumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProductColor" class="form-label"></label>
+        <input asp-for="ProductColor" class="form-control" />
+        <span asp-validation-for="ProductColor" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SafetyStockLevel" class="form-label"></label>
+        <input asp-for="SafetyStockLevel" class="form-control" />
+        <span asp-validation-for="SafetyStockLevel" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ReorderPoint" class="form-label"></label>
+        <input asp-for="ReorderPoint" class="form-control" />
+        <span asp-validation-for="ReorderPoint" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="StandardCost" class="form-label"></label>
+        <input asp-for="StandardCost" class="form-control" />
+        <span asp-validation-for="StandardCost" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ListPrice" class="form-label"></label>
+        <input asp-for="ListPrice" class="form-control" />
+        <span asp-validation-for="ListPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Size" class="form-label"></label>
+        <input asp-for="Size" class="form-control" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DaysToManufacture" class="form-label"></label>
+        <input asp-for="DaysToManufacture" class="form-control" />
+        <span asp-validation-for="DaysToManufacture" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SellStartDate" class="form-label"></label>
+        <input asp-for="SellStartDate" class="form-control" type="date" />
+        <span asp-validation-for="SellStartDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProductSubCategoryId" class="form-label">Product Subcategory</label>
+        <select asp-for="ProductSubCategoryId" class="form-select">
+            <option value=""> Select Subcategory </option>
+            @foreach (var subCategory in Model.ProductSubCategory)
+            {
+                <option value="@subCategory.Id">@subCategory.Name</option>
+            }
+        </select>
+        <span asp-validation-for="ProductSubCategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProductModelId" class="form-label">Product Model</label>
+        <select asp-for="ProductModelId" class="form-select">
+            <option value=""> Select Model </option>
+            @foreach (var promodel in Model.ProductModel)
+            {
+                <option value="@promodel.Id">@promodel.Name</option>
+            }
+        </select>
+        <span asp-validation-for="ProductModelId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

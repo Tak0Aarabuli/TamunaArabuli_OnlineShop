@@ -1,0 +1,23 @@
+﻿@model Models.Product.CreateProductCategoryViewModel;
+@{
+    ViewData["Title"] = "Add New Category";
+}
+
+<div class="container">
+    <h1 class="my-4">Add New Product Category</h1>
+
+    <form asp-action="AddCategory" method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Category Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save
+        </button>
+        <a href="@Url.Action("Index", "ProductCategory")" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </form>
+</div>
