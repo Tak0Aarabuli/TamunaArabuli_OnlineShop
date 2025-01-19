@@ -1,0 +1,77 @@
+﻿@model Models.Order.SalesOrderDetailModel
+
+@{
+    ViewData["Title"] = "Create Sales Order Detail";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<h2>Create Sales Order Detail</h2>
+
+<form asp-action="CreateDetail" method="post">
+    <input asp-for="SalesOrderId" type="hidden" />
+    <!-- Carrier Tracking Number -->
+    <div class="mb-3">
+        <label asp-for="CarrierTrackingNumber" class="form-label">Carrier Tracking Number</label>
+        <input asp-for="CarrierTrackingNumber" class="form-control" />
+        <span asp-validation-for="CarrierTrackingNumber" class="text-danger"></span>
+    </div>
+
+    <!-- Order Quantity -->
+    <div class="mb-3">
+        <label asp-for="OrderQty" class="form-label">Order Quantity</label>
+        <input asp-for="OrderQty" class="form-control" type="number" />
+        <span asp-validation-for="OrderQty" class="text-danger"></span>
+    </div>
+
+
+    <!-- Special Offer ID -->
+    <div class="mb-3">
+        <label asp-for="val" class="form-label">Special Offer</label>
+        <select asp-for="val" asp-items="ViewBag.SpecialOffers" class="form-select">
+            <option value="">-- Select Special Offer --</option>
+        </select>
+        <span asp-validation-for="val" class="text-danger"></span>
+    </div>
+
+    <!-- Unit Price -->
+    <div class="mb-3">
+        <label asp-for="UnitPrice" class="form-label">Unit Price</label>
+        <input asp-for="UnitPrice" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="UnitPrice" class="text-danger"></span>
+    </div>
+
+    <!-- Unit Price Discount -->
+    <div class="mb-3">
+        <label asp-for="UnitPriceDiscount" class="form-label">Unit Price Discount</label>
+        <input asp-for="UnitPriceDiscount" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="UnitPriceDiscount" class="text-danger"></span>
+    </div>
+
+    <!-- Line Total -->
+    <div class="mb-3">
+        <label asp-for="LineTotal" class="form-label">Line Total</label>
+        <input asp-for="LineTotal" class="form-control" type="number" step="0.01" readonly />
+    </div>
+
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<!-- Validation Scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

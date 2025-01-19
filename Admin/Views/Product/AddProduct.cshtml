@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "Add Product";
 }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
 
 <h2>Add Product</h2>
 
@@ -70,12 +83,12 @@
         <span asp-validation-for="DaysToManufacture" class="text-danger"></span>
     </div>
 
-    <!-- Sell Start Date -->
     <div class="mb-3">
         <label asp-for="SellStartDate" class="form-label">Sell Start Date</label>
-        <input asp-for="SellStartDate" class="form-control" type="date" />
+        <input asp-for="SellStartDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="SellStartDate" class="text-danger"></span>
     </div>
+
 
     <!-- Product Subcategory -->
     <div class="mb-3">

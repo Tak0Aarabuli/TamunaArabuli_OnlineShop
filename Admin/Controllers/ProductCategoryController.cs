@@ -49,15 +49,15 @@ namespace Admin.Controllers
         
         // Delete Category - POST
         [HttpPost]
-        public IActionResult Delete(string name)
+        public IActionResult DeleteCategory(string categoryName)
         {
-            if (_productCategoryService.HasRelatedProduct(name))
+            if (_productCategoryService.HasRelatedProduct(categoryName))
             {
                 TempData["Error"] = "Cannot delete category with related products.";
                 return RedirectToAction("Index");
             }
 
-            var result = _productCategoryService.DeleteCategory(name);
+            var result = _productCategoryService.DeleteCategory(categoryName);
 
             if (!result)
             {

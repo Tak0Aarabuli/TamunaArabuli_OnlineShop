@@ -67,8 +67,11 @@ namespace Admin.Controllers
                var result = _productService.AddProduct(model, out msg);
                 if (result)
                 {
+                    TempData["Success"] = msg;
                     return RedirectToAction(nameof (Index));
+
                 } 
+                
             }
 
             // Reload dropdowns if model validation fails
@@ -86,6 +89,7 @@ namespace Admin.Controllers
                     Name = mod.Name
                 })
                 .ToList();
+            TempData["Error"] = msg;
 
             return View(model);
         }
@@ -130,7 +134,7 @@ namespace Admin.Controllers
             var result = _productService.DeleteProduct(productId);
             if (result)
             {
-                TempData["Message"] = "Product deleted successfully.";
+                TempData["Success"] = "Product deleted successfully.";
             }
             else
             {

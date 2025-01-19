@@ -47,7 +47,6 @@
                             <i class="bi bi-pencil"></i> Edit
                         </a>
 
-                        <!-- Delete Button -->
                         <button type="button" class="btn btn-danger btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteModal"
@@ -61,7 +60,6 @@
     </table>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -70,11 +68,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the subcategory <strong id="subcategoryName"></strong>?
+                Are you sure you want to delete the category <strong id="categoryName"></strong>?
             </div>
             <div class="modal-footer">
-                <form asp-action="DeleteSubCategory" asp-controller="ProductSubCategory" method="post">
-                    <input type="hidden" id="subcategoryIdToDelete" name="subcategoryId" value="" />
+                <form asp-action="DeleteCategory" asp-controller="ProductCategory" method="post">
+                    <!-- Hidden input to hold the category name -->
+                    <input type="hidden" id="categoryNameToDelete" name="categoryName" value="" />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -83,16 +82,16 @@
     </div>
 </div>
 
+
 <script>
-    // Pass the subcategory ID and name to the modal's hidden input and display
+    // Pass the category name to the modal's hidden input and display
     var deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget; // Button that triggered the modal
-        var subcategoryId = button.getAttribute('data-subcategory-id'); // Extract subcategory ID
-        var subcategoryName = button.getAttribute('data-subcategory-name'); // Extract subcategory name
+        var categoryName = button.getAttribute('data-category-name'); // Extract category name
 
         // Update the modal fields
-        document.getElementById('subcategoryIdToDelete').value = subcategoryId; // Set ID in hidden input
-        document.getElementById('subcategoryName').textContent = subcategoryName; // Set name in confirmation message
+        document.getElementById('categoryNameToDelete').value = categoryName; // Set name in hidden input
+        document.getElementById('categoryName').textContent = categoryName; // Display name in confirmation message
     });
 </script>

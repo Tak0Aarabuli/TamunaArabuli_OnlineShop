@@ -1,0 +1,130 @@
+﻿@model Models.Order.SalesOrderHeaderModel
+
+@{
+    ViewData["Title"] = "Create Sales Order";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<h2>Create Sales Order</h2>
+
+<form asp-action="Create" method="post">
+    <!-- Order Date -->
+    <div class="mb-3">
+        <label asp-for="OrderDate" class="form-label">Order Date</label>
+        <input asp-for="OrderDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <!-- Due Date -->
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label">Due Date</label>
+        <input asp-for="DueDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <!-- Status -->
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select">
+            <option value="1">In Progress</option>
+            <option value="2">Shipped</option>
+            <option value="3">Cancelled</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <!-- Online Order Flag -->
+    <div class="mb-3">
+        <label asp-for="OnlineOrderFlag" class="form-label">Online Order</label>
+        <select asp-for="OnlineOrderFlag" class="form-select">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+        <span asp-validation-for="OnlineOrderFlag" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CustomerId" class="form-label">Customer</label>
+        <select asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-select">
+            <option value="">-- Select a Customer --</option>
+        </select>
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+    <!-- Bill To Address -->
+    <div class="mb-3">
+        <label asp-for="BillToAddressId" class="form-label">Bill To Address</label>
+        <select asp-for="BillToAddressId" asp-items="ViewBag.Addresses" class="form-select">
+            <option value="">-- Select a Address --</option>
+        </select>
+        <span asp-validation-for="BillToAddressId" class="text-danger"></span>
+    </div>
+
+    <!-- Ship To Address -->
+    <div class="mb-3">
+        <label asp-for="ShipToAddressId" class="form-label">Ship To Address</label>
+        <select asp-for="ShipToAddressId" asp-items="ViewBag.Addresses" class="form-select">
+            <option value="">-- Select a Address --</option>
+        </select>
+        <span asp-validation-for="ShipToAddressId" class="text-danger"></span>
+    </div>
+    <!-- Ship Method -->
+
+    <div class="mb-3">
+        <label asp-for="ShipMethodId" class="form-label">Ship Method</label>
+        <select asp-for="ShipMethodId" asp-items="ViewBag.ShipMethods" class="form-select">
+            <option value="">-- Select a Method --</option>
+        </select>
+        <span asp-validation-for="ShipMethodId" class="text-danger"></span>
+    </div>
+
+    <!-- Sub Total -->
+    <div class="mb-3">
+        <label asp-for="SubTotal" class="form-label">Sub Total</label>
+        <input asp-for="SubTotal" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="SubTotal" class="text-danger"></span>
+    </div>
+
+    <!-- Tax Amount -->
+    <div class="mb-3">
+        <label asp-for="TaxAmt" class="form-label">Tax Amount</label>
+        <input asp-for="TaxAmt" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="TaxAmt" class="text-danger"></span>
+    </div>
+
+    <!-- Revision Number -->
+    <div class="mb-3">
+        <label asp-for="RevisionNumber" class="form-label">RevisionNumber</label>
+        <input asp-for="RevisionNumber" class="form-control" type="number" />
+        <span asp-validation-for="RevisionNumber" class="text-danger"></span>
+    </div>
+
+    <!-- Freight -->
+    <div class="mb-3">
+        <label asp-for="Freight" class="form-label">Freight</label>
+        <input asp-for="Freight" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Freight" class="text-danger"></span>
+    </div>
+
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<!-- Validation Scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -31,6 +31,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductSubCategoryService, ProductSubCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISalesOrderHeaderService, SalesOrderHeaderService>();
+builder.Services.AddScoped<ISalesOrderDetailService, SalesOrderDetailService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IPurchasingService, PurchasingService>();
+builder.Services.AddScoped<IProducationService, ProducationService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
 
 var app = builder.Build();
 

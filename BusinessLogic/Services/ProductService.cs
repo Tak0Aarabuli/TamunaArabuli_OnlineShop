@@ -101,10 +101,17 @@ namespace BusinessLogic.Services
                 if (_context.Products.Any(p => p.ProductNumber == model.ProductNumber))
                 {
 
-                    msg = "The ProductNumber must be unique.";
+                    msg = "The Product Number must be unique.";
                     return false;
                 }
 
+                // Check for unique ProductNumber
+                if (_context.Products.Any(p => p.Name == model.ProductName))
+                {
+
+                    msg = "The Product Name must be unique.";
+                    return false;
+                }
 
                 var product = new Product
                 {
@@ -146,7 +153,7 @@ namespace BusinessLogic.Services
             //}
             catch (Exception ex)
             {
-                msg = "An unexpected error occurred while adding the product: {ex.Message}";
+                msg = $"An unexpected error occurred while adding the product: {ex.Message}";
                 return false;
             }
         }
