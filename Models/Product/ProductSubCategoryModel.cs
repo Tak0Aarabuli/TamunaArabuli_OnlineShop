@@ -12,15 +12,19 @@ namespace Models.Product
 
     public class ProductSubCategoryModel
     {
-        public int ProductSubcategoryId { get; set; }
+        public int ProductSubCategoryId { get; set; }
         public int ProductCategoryId { get; set; }
-        public string Name { get; set; } = null!;
+        public string? ProductCategoryName { get; set; }
+        public string ProductSubCategoryName { get; set; } = null!;
+        public int ProductsCount { get; set; }
         public DateTime ModifiedDate { get; set; }
+
 
     }
 
-    public class ProductSubCategoryCreateModel
+    public class CreateProductSubCategoryModel
     {
+        public int? ProductSubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Product category is required.")]
         public int ProductCategoryId { get; set; }

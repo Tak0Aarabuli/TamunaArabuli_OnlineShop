@@ -1,13 +1,13 @@
-﻿@model Models.Product.ProductCategoryModel
+﻿@using Models.Product
+@model IEnumerable<ProductSubCategoryModel>
 
 @{
-    ViewData["Title"] = "Product Categories";
+    ViewData["Title"] = "Product Subcategories";
 }
 
 <div class="container">
-    <h1 class="my-4">Product Categories</h1>
+    <h1 class="my-4">Product Subcategories</h1>
 
-    <!-- Display Success and Error Messages -->
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success">
@@ -23,37 +23,50 @@
     }
 
     <div class="mb-3">
-        <a href="@Url.Action("AddCategory", "ProductCategory")" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add New Category
+        <a href="@Url.Action("AddSubCategory", "ProductSubCategory")" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Subcategory
         </a>
     </div>
 
     <table class="table table-striped">
         <thead class="table-dark">
             <tr>
-                <th>Name</th>
+                <th>Category Name</th>
+                <th>Subcategory Name</th>
                 <th>Products Count</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var category in Model.ProductCategoryList) 
+            @foreach (var subcategory in Model)
             {
                 <tr>
-                    <td>@category.Name</td>
-                    <td>@category.ProductCount</td>
+                    <td>@subcategory.ProductCategoryName</td>
+                    <td>@subcategory.ProductSubCategoryName</td>
+                    <td>@subcategory.ProductsCount</td>
                     <td>
-                        <a href="@Url.Action("EditCategory", "ProductCategory", new { id = category.ProductCategoryId})" class="btn btn-warning btn-sm">
+                        <a href="@Url.Action("EditSubCategory", "ProductSubCategory", new { id = subcategory.ProductSubCategoryId })" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil"></i> Edit
                         </a>
 
-                        <!-- Delete Button -->
-                        <button type="button" class="btn btn-danger btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"
-                                data-category-name="@category.Name">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
+                        <!-- Conditional Delete Button -->
+                        @if (subcategory.ProductsCount == 0)
+                        {
+                            <a href="#"
+                               class="btn btn-danger btn-sm"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteModal"
+                               data-subcategory-id="@subcategory.ProductSubCategoryId"
+                               data-subcategory-name="@subcategory.ProductSubCategoryName">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                <i class="bi bi-trash"></i> Can not Delete
+                            </button>
+                        }
                     </td>
                 </tr>
             }
@@ -84,15 +97,14 @@
 </div>
 
 <script>
-    // Pass the subcategory ID and name to the modal's hidden input and display
     var deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget; // Button that triggered the modal
         var subcategoryId = button.getAttribute('data-subcategory-id'); // Extract subcategory ID
         var subcategoryName = button.getAttribute('data-subcategory-name'); // Extract subcategory name
 
-        // Update the modal fields
-        document.getElementById('subcategoryIdToDelete').value = subcategoryId; // Set ID in hidden input
-        document.getElementById('subcategoryName').textContent = subcategoryName; // Set name in confirmation message
+        // Set the ID and name in the modal
+        document.getElementById('subcategoryIdToDelete').value = subcategoryId;
+        document.getElementById('subcategoryName').textContent = subcategoryName;
     });
 </script>

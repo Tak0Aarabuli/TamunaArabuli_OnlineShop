@@ -19,8 +19,9 @@ namespace BusinessLogic.Services
         }
 
         // Get all categories for listing
-        public ProductCategoryModel GetCategory(ProductCategoryModel model)
+        public ProductCategoryModel GetCategory()
         {
+            ProductCategoryModel model = new ProductCategoryModel();
             model.ProductCategoryList = _context.ProductCategories
                 .Select(c => new ProductCategoryListItem
                 {

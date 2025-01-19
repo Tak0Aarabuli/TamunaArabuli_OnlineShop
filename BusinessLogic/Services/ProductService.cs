@@ -23,9 +23,9 @@ namespace BusinessLogic.Services
         }
 
         // Get Products for listing
-        public ProductViewModel GetProducts(ProductViewModel model)
+        public async Task<ProductViewModel> GetProductsAsync(ProductViewModel model, int page = 1, int pageSize = 10)
         {
-            model.ProductList = _context.Products
+            var query = _context.Products
                 .Select(p => new ProductListItemModel
                 {
                     ProductId = p.ProductId,
@@ -35,10 +35,22 @@ namespace BusinessLogic.Services
                     ListPrice = p.ListPrice,
                     ModifiedDate = p.ModifiedDate,
                     OrderCount = p.PurchaseOrderDetails.Sum(x => x.OrderQty),
-                }).ToList();
+                });
+
+            model.TotalRecords = await query.CountAsync();
+            model.ProductList = await query
+                .OrderByDescending(p => p.ProductId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            model.CurrentPage = page;
+            model.PageSize = pageSize;
 
             return model;
         }
+
+
 
 
 

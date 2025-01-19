@@ -19,7 +19,7 @@ namespace Admin.Controllers
         // Index Action
         public IActionResult Index(ProductCategoryModel model)
         {
-            var categories = _productCategoryService.GetCategory(model);
+            var categories = _productCategoryService.GetCategory();
             return View(categories);
         }
 

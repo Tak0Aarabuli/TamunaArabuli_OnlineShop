@@ -9,99 +9,94 @@ using Models.Product;
 
 namespace BusinessLogic.Services
 {
-    public class ProductCategoryService : IProductCategoryService
+    public class ProductSubCategoryService : IProductSubCategoryService
     {
         private readonly EFContext _context;
 
-        public ProductCategoryService(EFContext context)
+        public ProductSubCategoryService(EFContext context)
         {
             _context = context;
         }
 
-        // Get all categories for listing
-        public ProductCategoryModel GetCategory(ProductCategoryModel model)
+        public async Task<IEnumerable<ProductSubCategoryModel>> GetSubCategoriesAsync()
         {
-            model.ProductCategoryList = _context.ProductCategories
-                .Select(c => new ProductCategoryListItem
-                {
-                    Name = c.Name,
-                    ProductCategoryId=c.ProductCategoryId,
-                    ProductCount = c.ProductSubcategories.SelectMany(s => s.Products).Count(),
-                }).ToList();
+            var query = from subcategory in _context.ProductSubcategories
+                        join category in _context.ProductCategories
+                            on subcategory.ProductCategoryId equals category.ProductCategoryId
+                        join product in _context.Products
+                            on subcategory.ProductSubcategoryId equals product.ProductSubcategoryId into productGroup
+                        select new ProductSubCategoryModel
+                        {
+                            ProductCategoryId = subcategory.ProductCategoryId,
+                            ProductCategoryName = category.Name,
+                            ProductSubCategoryId = subcategory.ProductSubcategoryId,
+                            ProductSubCategoryName = subcategory.Name,
+                            ProductsCount = productGroup.Count(),
+                            ModifiedDate = subcategory.ModifiedDate
+                        };
 
-            return model;
+            return await query.ToListAsync(); 
         }
 
-        // Add a new category
-        public void AddCategory(CreateProductCategoryViewModel model)
+
+        public void AddSubCategory(ProductSubCategoryModel model)
         {
-            var category = new ProductCategory
+            var subCategory = new ProductSubcategory
             {
-                Name = model.Name,
+                Name = model.ProductSubCategoryName,
+                ProductCategoryId= model.ProductCategoryId,
                 Rowguid = Guid.NewGuid(),
                 ModifiedDate = DateTime.Now,
             };
 
-            _context.ProductCategories.Add(category);
+            _context.ProductSubcategories.Add(subCategory);
             _context.SaveChanges();
         }
 
-        // Delete a category if there are no related products
-        public bool DeleteCategory(string categoryName)
+        public bool DeleteSubCategory(int id)
         {
-            var category = _context.ProductCategories
-                .Include(c => c.ProductSubcategories)
-                .FirstOrDefault(c => c.Name == categoryName);
-
-            if (category == null || category.ProductSubcategories.Any())
+            
+            var subCategory = _context.ProductSubcategories.FirstOrDefault(sc => sc.ProductSubcategoryId == id);
+            if (subCategory == null)
             {
-                return false; // Cannot delete if products are related
+                return false; 
             }
 
-            _context.ProductCategories.Remove(category);
+            _context.ProductSubcategories.Remove(subCategory);
             _context.SaveChanges();
-            return true;
-        }
 
-        // Check if the category has any related products
-        public bool HasRelatedProduct(string categoryName)
-        {
-            var category = _context.ProductCategories
-                .Include(c => c.ProductSubcategories)
-                .ThenInclude(s => s.Products)
-                .FirstOrDefault(c => c.Name == categoryName);
-
-            return category != null && category.ProductSubcategories
-                .SelectMany(s => s.Products)
-                .Any();
+            return true; 
         }
 
 
 
-        // Get category by Id for editing
-        public CreateProductCategoryViewModel GetCategoryById(int id)
-        {
-            var category = _context.ProductCategories.FirstOrDefault(c => c.ProductCategoryId == id);
-            if (category == null) return null;
 
-            return new CreateProductCategoryViewModel
+        public ProductSubCategoryModel GetSubCategoryById(int id)
+        {
+            var subcategory = _context.ProductSubcategories.FirstOrDefault(c => c.ProductSubcategoryId == id);
+            if (subcategory == null) return null;
+
+            return  new ProductSubCategoryModel
             {
-                Id = category.ProductCategoryId,
-                Name = category.Name
+                ProductCategoryId = subcategory.ProductCategoryId,
+                ProductSubCategoryId = subcategory.ProductSubcategoryId,
+                ProductSubCategoryName = subcategory.Name,
             };
+
         }
 
-        // Update category details
-        public void UpdateCategory(CreateProductCategoryViewModel model)
+        //// Update category details
+        public void UpdateSubCategory(ProductSubCategoryModel model)
         {
-            var category = _context.ProductCategories.FirstOrDefault(c => c.ProductCategoryId == model.Id);
+            var subcategory = _context.ProductSubcategories.FirstOrDefault(c => c.ProductSubcategoryId == model.ProductSubCategoryId);
 
-            if (category != null)
+            if (subcategory != null)
             {
-                category.Name = model.Name;
-                category.ModifiedDate = DateTime.Now;
+                subcategory.Name = model.ProductSubCategoryName;
+                subcategory.ProductCategoryId = model.ProductCategoryId;
+                subcategory.ModifiedDate = DateTime.Now;
 
-                _context.ProductCategories.Update(category);
+                _context.ProductSubcategories.Update(subcategory);
                 _context.SaveChanges();
             }
 

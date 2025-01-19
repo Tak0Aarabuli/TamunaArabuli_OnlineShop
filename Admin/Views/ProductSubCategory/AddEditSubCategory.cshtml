@@ -1,0 +1,42 @@
+﻿@model Models.Product.ProductSubCategoryModel
+
+@{
+    ViewData["Title"] = Model.ProductSubCategoryId == 0 ? "Add New Subcategory" : "Edit Subcategory";
+    ViewData["FormAction"] = Model.ProductSubCategoryId == 0 ? "AddSubCategory" : "EditSubCategory";
+}
+
+<div class="container">
+    <h1 class="my-4">@ViewData["Title"]</h1>
+
+    <form asp-action="@ViewData["FormAction"]" method="post">
+        <!-- Hidden Field for Subcategory ID (Only relevant for edit) -->
+        @if (Model.ProductSubCategoryId != 0)
+        {
+            <input type="hidden" asp-for="ProductSubCategoryId" />
+        }
+
+        <!-- Product Category Dropdown -->
+        <div class="mb-3">
+            <label asp-for="ProductCategoryId" class="form-label">Product Category</label>
+            <select asp-for="ProductCategoryId" asp-items="ViewBag.ProductCategories" class="form-select">
+                <option value="">-- Select a Category --</option>
+            </select>
+            <span asp-validation-for="ProductCategoryId" class="text-danger"></span>
+        </div>
+
+        <!-- Subcategory Name -->
+        <div class="mb-3">
+            <label asp-for="ProductSubCategoryName" class="form-label">Subcategory Name</label>
+            <input asp-for="ProductSubCategoryName" class="form-control" />
+            <span asp-validation-for="ProductSubCategoryName" class="text-danger"></span>
+        </div>
+
+        <!-- Buttons -->
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save
+        </button>
+        <a href="@Url.Action("Index", "ProductSubCategory")" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </form>
+</div>

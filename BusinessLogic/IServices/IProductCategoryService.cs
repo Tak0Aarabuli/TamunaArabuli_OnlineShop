@@ -10,7 +10,7 @@ namespace BusinessLogic.IServices
 {
     public interface IProductCategoryService
     {
-        ProductCategoryModel GetCategory(ProductCategoryModel model);
+        ProductCategoryModel GetCategory();
 
         void AddCategory(CreateProductCategoryViewModel model);
 

@@ -16,11 +16,20 @@ namespace Admin.Controllers
         {
             _productService = productService;
         }
-        public IActionResult Index(ProductViewModel model)
+        public async Task<IActionResult> Index(ProductViewModel model, int page = 1, int pageSize = 15)
         {
-            var products = _productService.GetProducts(model);
-            return View(products);
+            // Set the current page and page size in the model
+            model.CurrentPage = page;
+            model.PageSize = pageSize;
+
+            // Fetch the products asynchronously
+            var products = await _productService.GetProductsAsync(model,page,pageSize);
+
+
+
+            return View(products); // Pass the resolved model to the view
         }
+
 
 
         // Add Product - GET

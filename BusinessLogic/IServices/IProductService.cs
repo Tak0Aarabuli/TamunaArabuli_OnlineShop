@@ -9,7 +9,7 @@ namespace BusinessLogic.IServices
 {
     public interface IProductService
     {
-        ProductViewModel GetProducts(ProductViewModel model);
+        Task<ProductViewModel> GetProductsAsync(ProductViewModel model, int page = 1, int pageSize = 10);
         bool AddProduct (CreateProductViewModel model, out string msg);
        
         IEnumerable<ProductSubCategoryListItem> GetProductSubCategories();
