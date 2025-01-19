@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.IServices;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models.Product;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductSubCategoryController : Controller
     {
         private readonly IProductSubCategoryService _ProductSubCategoryService;
@@ -33,7 +35,7 @@ namespace Admin.Controllers
         {
 
             ViewBag.ProductCategories = ProductCategorySelectList();
-            return View("AddEditSubCategory",new CreateProductSubCategoryModel());
+            return View("AddEditSubCategory",new ProductSubCategoryModel());
         }
 
         // Add Category - POST

@@ -165,7 +165,7 @@ namespace BusinessLogic.Services
             }
 
             // Find the order detail record by SalesOrderDetailID
-            var orderDetail = await _context.SalesOrderDetails.FindAsync(orderDto.SalesOrderDetailId);
+            var orderDetail = await _context.SalesOrderDetails.FirstOrDefaultAsync(sod => sod.SalesOrderDetailId == orderDto.SalesOrderDetailId);
             if (orderDetail == null)
             {
                 throw new KeyNotFoundException($"Order detail with ID {orderDto.SalesOrderDetailId} not found.");
@@ -209,7 +209,7 @@ namespace BusinessLogic.Services
         public async Task DeleteOrderDetailAsync(int orderDetailId)
         {
             // Find the specific order detail by its ID
-            var orderDetail = await _context.SalesOrderDetails.FindAsync(orderDetailId);
+            var orderDetail = await _context.SalesOrderDetails.FirstOrDefaultAsync(sod => sod.SalesOrderDetailId == orderDetailId); 
 
             // If the order detail is not found, throw an exception
             if (orderDetail == null)

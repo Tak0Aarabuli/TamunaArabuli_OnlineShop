@@ -1,0 +1,174 @@
+﻿@model Models.Report.AllReportsViewModel
+
+@{
+    ViewData["Title"] = "Sales Reports Dashboard";
+}
+
+<div class="container">
+    <h1 class="my-4">Sales Reports Dashboard</h1>
+
+    <!-- Success and Error Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- Aggregated Sales Report -->
+    <section class="mb-5">
+        <h2>Aggregated Sales Report</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Year</th>
+                    <th>Month</th>
+                    <th>Category ID</th>
+                    <th>Product ID</th>
+                    <th>Customer ID</th>
+                    <th>Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in Model.AggregatedSalesReport.AggregatedData)
+                {
+                    <tr>
+                        <td>@data.Year</td>
+                        <td>@data.Month</td>
+                        <td>@data.CategoryId</td>
+                        <td>@data.ProductId</td>
+                        <td>@data.CustomerId</td>
+                        <td>@data.TotalSales.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Top 10 Customers by Sales -->
+    <section class="mb-5">
+        <h2>Top 10 Customers by Sales</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model.TopCustomersBySales)
+                {
+                    <tr>
+                        <td>@customer.CustomerId</td>
+                        <td>@customer.TotalSales.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Top 10 Customers by Yearly Sales -->
+    <section class="mb-5">
+        <h2>Top 10 Customers by Yearly Sales</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Year</th>
+                    <th>Customer ID</th>
+                    <th>Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model.TopCustomersByYearlySales)
+                {
+                    <tr>
+                        <td>@customer.Year</td>
+                        <td>@customer.CustomerId</td>
+                        <td>@customer.TotalSales.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Top 10 Products by Sales -->
+    <section class="mb-5">
+        <h2>Top 10 Products by Sales</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.TopProductsBySales)
+                {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.TotalSales.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Top 10 Products by Profit -->
+    <section class="mb-5">
+        <h2>Top 10 Products by Profit</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Total Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.TopProductsByProfit)
+                {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.TotalProfit.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Top 10 Products by Yearly Sales -->
+    <section class="mb-5">
+        <h2>Top 10 Products by Yearly Sales</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Year</th>
+                    <th>Product ID</th>
+                    <th>Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.TopProductsByYearlySales)
+                {
+                    <tr>
+                        <td>@product.Year</td>
+                        <td>@product.ProductId</td>
+                        <td>@product.TotalSales.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<style>
+    .table {
+        margin-bottom: 2rem;
+    }
+</style>

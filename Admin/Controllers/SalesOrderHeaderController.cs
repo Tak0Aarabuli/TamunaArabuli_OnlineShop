@@ -6,9 +6,11 @@ using Models.Shared;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models.Customer;
+using Microsoft.AspNetCore.Authorization;
 namespace Admin.Controllers
 {
-        public class SalesOrderHeaderController : Controller
+    [Authorize(Roles = "Admin")]
+    public class SalesOrderHeaderController : Controller
         {
             private readonly ISalesOrderHeaderService _salesOrderHeaderService;
             private readonly ISalesOrderDetailService _salesOrderDetailService;
@@ -202,11 +204,71 @@ namespace Admin.Controllers
                 orderDto.ProductId = Convert.ToInt32(val[1]);
                 await _salesOrderDetailService.CreateOrderDetailAsync(orderDto);
                 TempData["Success"] = "Order created successfully.";
-                return RedirectToAction(nameof(Details));
+                return RedirectToAction("Details", new { id = orderDto.SalesOrderId });
             }
             ViewBag.SpecialOffers = SpecialOfferProductSelectList();
             TempData["Error"] = "Failed to create order. Please check the input.";
             return View("AddSalesOrderDetail", orderDto);
+        }
+
+        public async Task<IActionResult> EditDetail(int id)
+        {
+            var order = await _salesOrderDetailService.GetOrderDetailByIdAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            order.val=order.SpecialOfferId+","+order.ProductId;
+            ViewBag.SpecialOffers = SpecialOfferProductSelectList();
+            return View("EditSalesOrderDetail", order); // Assumes a corresponding Edit.cshtml view
+        }
+
+        // POST: SalesOrder/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDetail(SalesOrderDetailModel orderDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string[] val = orderDto.val.Split(',');
+                    orderDto.SpecialOfferId = Convert.ToInt32(val[0]);
+                    orderDto.ProductId = Convert.ToInt32(val[1]);
+                    await _salesOrderDetailService.UpdateOrderDetailAsync(orderDto);
+                    TempData["Success"] = "Order updated successfully.";
+                    return RedirectToAction("Details", new { id = orderDto.SalesOrderId });
+                }
+                catch (KeyNotFoundException)
+                {
+                    return NotFound();
+                }
+            }
+            ViewBag.SpecialOffers = SpecialOfferProductSelectList();
+            TempData["Error"] = "Failed to update order. Please check the input.";
+            return View("EditSalesOrderDetail", orderDto);
+        }
+
+        // POST: SalesOrder/Delete/5
+        [HttpPost, ActionName("DeleteDetail")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDetail(int orderId)
+        {
+            try
+            {
+                await _salesOrderDetailService.DeleteOrderDetailAsync(orderId);
+                TempData["Success"] = "Order deleted successfully.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Failed to delete order. It might have dependent details.";
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
     }

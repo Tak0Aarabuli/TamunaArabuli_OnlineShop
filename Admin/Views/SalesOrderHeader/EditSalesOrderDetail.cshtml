@@ -1,7 +1,7 @@
 ﻿@model Models.Order.SalesOrderDetailModel
 
 @{
-    ViewData["Title"] = "Create Sales Order Detail";
+    ViewData["Title"] = "Edit Sales Order Detail";
 }
 
 @if (TempData["Success"] != null)
@@ -18,10 +18,11 @@
     </div>
 }
 
-<h2>Create Sales Order Detail</h2>
+<h2>Edit Sales Order Detail</h2>
 
-<form asp-action="CreateDetail" method="post">
+<form asp-action="EditDetail" method="post">
     <input asp-for="SalesOrderId" type="hidden" />
+    <input asp-for="SalesOrderDetailId" type="hidden" />
     <!-- Carrier Tracking Number -->
     <div class="mb-3">
         <label asp-for="CarrierTrackingNumber" class="form-label">Carrier Tracking Number</label>
@@ -49,21 +50,21 @@
     <!-- Unit Price -->
     <div class="mb-3">
         <label asp-for="UnitPrice" class="form-label">Unit Price</label>
-        <input asp-for="UnitPrice" class="form-control" type="number" step="0.01" />
+        <input asp-for="UnitPrice" class="form-control" type="number" />
         <span asp-validation-for="UnitPrice" class="text-danger"></span>
     </div>
 
     <!-- Unit Price Discount -->
     <div class="mb-3">
         <label asp-for="UnitPriceDiscount" class="form-label">Unit Price Discount</label>
-        <input asp-for="UnitPriceDiscount" class="form-control" type="number" step="0.01" />
+        <input asp-for="UnitPriceDiscount" class="form-control" type="number"  />
         <span asp-validation-for="UnitPriceDiscount" class="text-danger"></span>
     </div>
 
     <!-- Line Total -->
     <div class="mb-3">
         <label asp-for="LineTotal" class="form-label">Line Total</label>
-        <input asp-for="LineTotal" class="form-control" type="number" step="0.01"  />
+        <input asp-for="LineTotal" class="form-control" type="number"  />
     </div>
 
     <!-- Buttons -->
